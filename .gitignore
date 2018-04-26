@@ -1,0 +1,25 @@
+*.inc
+*.o
+HelpfulMath/Makefile
+*.d
+*.exe
+*.xml
+*.mk
+*.bash
+*.properties
+*.cbp
+*.depend
+*.layout
+*.save
+*/Makefile
+*.stackdump
+Messages/nbproject/private/c_standard_headers_indexer.c
+HelpfulMath/nbproject/private/cpp_standard_headers_indexer.cpp
+Stones on the Table/nbproject/private/cpp_standard_headers_indexer.cpp
+Stones on the Table/nbproject/private/c_standard_headers_indexer.c
+Sherlock and his girlfriend/nbproject/private/cpp_standard_headers_indexer.cpp
+Sherlock and his girlfriend/nbproject/private/c_standard_headers_indexer.c
+PetyaAndString/nbproject/private/cpp_standard_headers_indexer.cpp
+PetyaAndString/nbproject/private/c_standard_headers_indexer.c
+HelpfulMath/nbproject/private/c_standard_headers_indexer.c
+Messages/nbproject/private/cpp_standard_headers_indexer.cpp

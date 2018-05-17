@@ -23,3 +23,7 @@ PetyaAndString/nbproject/private/cpp_standard_headers_indexer.cpp
 PetyaAndString/nbproject/private/c_standard_headers_indexer.c
 HelpfulMath/nbproject/private/c_standard_headers_indexer.c
 Messages/nbproject/private/cpp_standard_headers_indexer.cpp
+/Mind the Gap/nbproject/private/
+/Mind the Gap/build/
+/Mind the Gap/dist/
+*.mf

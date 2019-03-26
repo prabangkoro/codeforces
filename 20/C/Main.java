@@ -11,7 +11,7 @@ public class Main {
     int NEdges = in.nextInt();
 
     long distance[] = new long[NVertices];
-    int weight[][] = new int[NEdges][NEdges];
+    int weight[][] = new int[NVertices][NVertices];
     for (int i = 0; i < NEdges; i++) {
       int u = in.nextInt() - 1;
       int v = in.nextInt() - 1;
@@ -20,16 +20,23 @@ public class Main {
       weight[v][u] = w;
     }
 
-    boolean visited[] = new boolean[NEdges];
-    for (int i = 0; i < NEdges; i++) {
-      visited[i] = true;
-      for (int j = 1; j < NEdges; j++) {
-        if (weight[i][j] > 0) {
-          if (distance[j] == 0) {
-            distance[j] = weight
-          }
-        }
+    for (int i = 0; i < NVertices; i++) {
+      for (int j = 0; j < NVertices; j++) {
+        out.print(weight[i][j] + " ");
       }
+      out.println();
+    }
+
+    boolean visited[] = new boolean[NVertices];
+    for (int i = 1; i < NVertices; i++) {
+      for (int j = 0; j < NVertices - i; j++) {
+        distance[j] = Math.min(distance[j], distance[i] + weight[i][j]);
+      }
+    }
+
+    out.println("distance");
+    for (int i = 0; i < NVertices; i++) {
+      out.print(distance[i] + " ");
     }
 
     in.close();

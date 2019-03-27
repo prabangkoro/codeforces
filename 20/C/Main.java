@@ -13,99 +13,99 @@ public class Main {
   static Scanner in = new Scanner(System.in);
   static PrintWriter out = new PrintWriter(System.out);
 
-  static HashMap<Integer, Integer>[] graphs;
-  static long distances[];
-  static int path[];
-  static LinkedList<Integer> shortest;
-  static boolean NO_PATH = false;
+  static int vertices;
+  static int edges;
+  static HashMap<Integer, Integer> graph[];
+  static long distance[];
+  static int prev[];
+  static LinkedList<Integer> shortestPath;
+  static boolean noPath = false;
 
-  static void dijkstra (int s, int vertices, int edges) {
-    distances = new long[vertices];
-    path = new int[vertices];
-    boolean marked[] = new boolean[vertices];
-
-    Arrays.fill(distances, Long.MAX_VALUE);
-    Arrays.fill(path, -1);
-
-    distances[s] = 0;
+  static void dijkstra (int source, int target) {
+    LinkedList<Integer> Q = new LinkedList<>();
+    
+    distance = new long[vertices];
+    prev = new int[vertices];
     for (int i = 0; i < vertices; i++) {
-      int currentVertex = -1;
-      // find min path
-      for (int j = 0; j < vertices; j++) {
-        if (!marked[j] && (currentVertex == -1 || distances[j] < distances[currentVertex]))
-          currentVertex = j;
-      }
-      marked[currentVertex] = true;
+      distance[i] = Long.MAX_VALUE;
+      prev[i] = -1;
+      Q.add(i);
+    }
+    distance[source] = 0;
 
-      for (Integer v : graphs[currentVertex].keySet()) {
-        int to = v;
-        int weight = graphs[currentVertex].get(v);
-
-        if (distances[to] > (distances[currentVertex] + weight)) {
-          distances[to] = distances[currentVertex] + weight;
-          path[to] = currentVertex;
+    while (!Q.isEmpty()) {
+      Iterator<Integer> iterator = Q.iterator();
+      int u = Q.peekFirst();
+      int uIndex = 0;
+      int index = 0;
+      while (iterator.hasNext()) {
+        int v = iterator.next();
+        if (distance[v] < distance[u]) {
+          u = v;
+          uIndex = index;
         }
+        index++;
       }
-      for (int j = 0; j < vertices; j++) {
-        if (graphs[j].containsKey(currentVertex)) {
-          int to = j;
-          int weight = graphs[j].get(currentVertex);
 
-          if (distances[to] > (distances[currentVertex] + weight)) {
-            distances[to] = distances[currentVertex] + weight;
-            path[to] = currentVertex;
-          }
+      Q.remove(uIndex);
+      if (u == target) break;
+
+      for (Integer v : graph[u].keySet()) {
+        long newDist = graph[u].get(v) + distance[u];
+        if (newDist < distance[v]) {
+          distance[v] = newDist;
+          prev[v] = u;
         }
       }
     }
   }
 
-  static void shortestPath (int source, int target) {
-    shortest = new LinkedList<>();
-
-    Integer prev = target;
-    while (prev != source) {
-      shortest.push(prev + 1);
-      prev = path[prev];
-      if (prev == -1) {
-        NO_PATH = true;
+  static void calculateShortestPath (int source, int target) {
+    shortestPath = new LinkedList<>();
+    int v = target;
+    while (v != source) {
+      shortestPath.push(v + 1);
+      v = prev[v];
+      if (v == -1) {
+        noPath = true;
         break;
       }
     }
-    shortest.push(source + 1);
+    shortestPath.push(source + 1);
   }
 
   public static void main(String[] args) {
-    int NVertices = in.nextInt();
-    int NEdges = in.nextInt();
-    
-    graphs = new HashMap[NVertices];
-    for (int i = 0; i < NVertices; i++) {
-      graphs[i] = new HashMap<>();
+    vertices = in.nextInt();
+    edges = in.nextInt();
+
+    graph = new HashMap[vertices];
+    for (int i = 0; i < vertices; i++) {
+      graph[i] = new HashMap<>();
     }
 
-    for (int i = 0; i < NEdges; i++) {
+    for (int i = 0; i < edges; i++) {
       int u = in.nextInt() - 1;
       int v = in.nextInt() - 1;
       int weight = in.nextInt();
 
-      graphs[u].put(v, weight);
-      // graphs[v].put(u, weight);
+      graph[u].put(v, weight);
+      graph[v].put(u, weight);
     }
 
-    dijkstra(0, NVertices, NEdges);
-    shortestPath(0, NVertices - 1);
+    dijkstra(0, vertices - 1);
+    calculateShortestPath(0, vertices - 1);
 
-    if (!NO_PATH) {
-      Iterator<Integer> iterator = shortest.iterator();
+    // for (int i = 0; i < prev.length; i++) {
+    //   out.println("i: " + (i + 1) + " prev: " + (prev[i] + 1));
+    // }
+
+    if (noPath) {
+      out.println(-1);
+    } else {
+      Iterator<Integer> iterator = shortestPath.iterator();
       while (iterator.hasNext()) {
         out.print(iterator.next() + " ");
       }
-      // for (Integer currentPath : shortest) {
-      //   out.print(currentPath + " ");
-      // }
-    } else {
-      out.println(-1);
     }
 
     in.close();

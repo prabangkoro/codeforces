@@ -6,6 +6,14 @@ public class Main {
   static PrintWriter out = new PrintWriter(System.out);
   
   public static void main(String[] args) {
+    int n = in.nextInt();
+
+    int weight = 0;
+    for (int i = 1; i < n - 1; i++) {
+      weight += ((i + 1) * (i + 2));
+    }
+
+    out.println(weight);
 
     in.close();
     out.close();

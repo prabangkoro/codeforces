@@ -4,50 +4,57 @@ import java.util.Scanner;
 public class Main {
   static Scanner in = new Scanner(System.in);
   static PrintWriter out = new PrintWriter(System.out);
-  static int len;
-  static int digits[];
-
-  static int getNineMultiplication (int k) {
-    for (int i = 1; i <= k; i++) {
-      if (digits[len - i] < 9) {
-        digits[len - i] = 9;
-        digits[len - i - 1]--;
-      }
-    }
-
-    for (int i = len - 1; i > 0; i--) {
-      if (digits[i] < 0) {
-        digits[i] = 9;
-        digits[i - 1]--;
-      }
-    }
-
-    int multiplication = 1;
-    for (int i = 0; i < len; i++) {
-      if (i == 0 && digits[i] == 0) continue;
-      multiplication *= digits[i];
-      // out.print(digits[i]);
-    }
-    // out.println();
-
-    return multiplication;
-  }
   
   public static void main(String[] args) {
-    String input = in.nextLine();
-    len = input.length();
-    digits = new int[len];
+    String number = in.nextLine();
+    int digits[] = new int[number.length()];
 
-    for (int i = 0; i < len; i++) {
-      digits[i] = input.charAt(i) - '0';
+    for (int i = 0; i < number.length(); i++) {
+      digits[i] = number.charAt(i) - '0';
     }
 
-    int max = 1;
-    for (int i = 0; i < len; i++) {
-      max = Math.max(max, getNineMultiplication(i));
+    int answer = 1;
+    if (digits.length > 2) {
+      int nines = digits.length - 2;
+      while (nines > 0) {
+        answer *= 9;
+        nines--;
+      }
+      int currentMax = digits[0] * digits[1];
+      int beforeMax = 1;
+      if (digits[1] != 9) {
+        beforeMax *= (9 * Math.max(digits[0] - 1, 1));
+      }
+      answer *= Math.max(currentMax, beforeMax);
+    } else if (digits.length == 2) {
+      int currentMax = digits[0] * digits[1];
+      int beforeMax = 1;
+      if (digits[1] != 9) {
+        beforeMax *= (9 * Math.max(digits[0] - 1, 1));
+      }
+      answer = Math.max(currentMax, beforeMax);
+    } else {
+      answer = digits[0];
     }
 
-    out.println(max);
+    // for (int i = digits.length - 1; i > 0; i--) {
+    //   if (digits[i] == 0 || digits[i] == -1) {
+    //     digits[i] = 9;
+    //     digits[i - 1]--;
+    //   } else if (i > 1 && digits[i] < 9) {
+    //     digits[i] = 9;
+    //     digits[i - 1]--;
+    //   }
+    // }
+
+    // for (int digit : digits) {
+    //   if (digit == 0) continue;
+    //   answer *= digit;
+    //   out.print(digit + " ");
+    // }
+
+    // out.println();
+    out.println(answer);
 
     in.close();
     out.close();

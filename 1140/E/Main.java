@@ -1,5 +1,5 @@
-import java.io.*;
-import java.util.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class Main {
   static Scanner in = new Scanner(System.in);

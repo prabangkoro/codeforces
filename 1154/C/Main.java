@@ -18,48 +18,60 @@ public class Main {
     int maxWeekB = b / 2;
     int maxWeekC = c / 2;
     int maxWeek = Math.min(maxWeekA, Math.min(maxWeekB, maxWeekC));
-    out.println("max week: " + maxWeek);
+    // out.println("max week: " + maxWeek);
     a -= (maxWeek * 3);
     b -= (maxWeek * 2);
     c -= (maxWeek * 2);
-    out.println("a: " + a + " b: " + b + " c: " + c);
+    // out.println("a: " + a + " b: " + b + " c: " + c);
 
     int totalDays = maxWeek * 7;
     int remainingDays = 0;
-    int[] arrRemainingDays = new int[7];
-    if (a > 0) {
-      a--;
-      arrRemainingDays[3] = 1;
-    }
-    if (a > 0) {
-      a--;
-      arrRemainingDays[0] = 1;
-    }
-    if (a > 0) {
-      a--;
-      arrRemainingDays[6] = 1;
-    }
-    if (c > 0) {
-      c--;
-      arrRemainingDays[2] = 1;
-    }
-    if (c > 0) {
-      c--;
-      arrRemainingDays[4] = 1;
-    }
-    if (b > 0) {
-      b--;
-      arrRemainingDays[1] = 1;
-    }
-    if (b > 0) {
-      b--;
-      arrRemainingDays[5] = 1;
-    }
+    char[] gourmetSchedule = {'a', 'b', 'c', 'a', 'c', 'b', 'a'};
 
     for (int i = 0; i < 7; i++) {
-      
+      int filledDays = 0;
+      int copyA = a;
+      int copyB = b;
+      int copyC = c;
+      // out.println("filling i: " + i);
+      for (int j = 0; j < 7; j++) {
+        int day = (i + j) % 7;
+        // out.println("day: " + day);
+        // out.println("gourmet schedule: " + gourmetSchedule[day]);
+        // out.println("a: " + a);
+        // out.println("b: " + b);
+        // out.println("c: " + c);
+        if (gourmetSchedule[day] == 'a') {
+          if (copyA > 0) {
+            copyA--;
+            filledDays++;
+            remainingDays = Math.max(filledDays, remainingDays);
+          } else {
+            break;
+          }
+        } else if (gourmetSchedule[day] == 'b') {
+          if (copyB > 0) {
+            copyB--;
+            filledDays++;
+            remainingDays = Math.max(filledDays, remainingDays);
+          } else {
+            break;
+          }
+        } else if (gourmetSchedule[day] == 'c') {
+          if (copyC > 0) {
+            copyC--;
+            filledDays++;
+            remainingDays = Math.max(filledDays, remainingDays);
+          } else {
+            break;
+          }
+        }
+      }
+      out.println();
     }
 
+    // out.println("total days: " + (totalDays));
+    // out.println("remaining days: " + remainingDays);
     out.println((totalDays + remainingDays));
 
     in.close();

@@ -5,7 +5,7 @@ public class Main {
   static Scanner in = new Scanner(System.in);
   static PrintWriter out = new PrintWriter(System.out);
 
-  static long gcd (long a, long b) {
+  static int gcd (int a, int b) {
     if (b == 0) {
       return a;
     } else {
@@ -14,34 +14,40 @@ public class Main {
   }
   
   public static void main(String[] args) {
-    long a = in.nextLong();
-    long b = in.nextLong();
+    int a = in.nextInt();
+    int b = in.nextInt();
 
-    long diff = Math.abs(b - a);
-    long gcdAB = gcd(a, b);
-    // if (diff != 0 && gcdAB != a && gcdAB != b) {
-    //   long number = 0;
-    //   if (a > b) {
-    //     number = a;
-    //   } else {
-    //     number = b;
-    //   }
-    //   long multiplier = (long)Math.ceil((double) number / diff);
-    //   long ans = multiplier * diff - number;
-    //   out.println(ans);
-    // } else {
-    //   out.println(0);
-    // }
-    long counter = 0;
+    int diff = Math.abs(b - a);
+    int gcdAB = gcd(a, b);
     if (diff != 0 && gcdAB != a && gcdAB != b) {
-      while (gcd(a, b) != diff) {
+      int number = Math.max(a, b);
+      int multiplier = (int)Math.ceil((double) number / diff);
+      int maxCounter = multiplier * diff - number;
+      int counter = 0;
+      int minAB = Math.min(a, b);
+      int maxAB = Math.max(a, b);
+      while ((maxAB % minAB) != 0 && counter < maxCounter) {
         a++;
         b++;
         counter++;
+        minAB = Math.min(a, b);
+        maxAB = Math.max(a, b);
       }
+      out.println(Math.min(counter, maxCounter));
+    } else {
+      out.println(0);
     }
-
-    out.println(counter);
+    // long counter = 0;
+    // long gcdAB = gcd(a, b);
+    // if (diff != 0 && gcdAB != a && gcdAB != b) {
+    //   while (gcdAB != diff && gcdAB != Math.min(a, b)) {
+    //     a++;
+    //     b++;
+    //     counter++;
+    //     gcdAB = gcd(a, b);
+    //   }
+    // }
+    // out.println(counter);
 
     in.close();
     out.close();

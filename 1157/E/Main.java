@@ -10,6 +10,7 @@ public class Main {
 
     int[] conj_a = new int[n];
     int[] b = new int[200001];
+    PriorityQueue<Integer> b_pq = new PriorityQueue<>();
 
     for (int i = 0; i < n; i++) {
       int input = in.nextInt();
@@ -19,6 +20,7 @@ public class Main {
     for (int i = 0; i < n; i++) {
       int input = in.nextInt();
       b[input]++;
+      b_pq.add(input);
     }
 
     int[] ans = new int[n];
@@ -40,6 +42,11 @@ public class Main {
 
     for (int answer : ans) {
       out.print(answer + " ");
+    }
+    
+    Iterator<Integer> it = b_pq.iterator();
+    while (it.hasNext()) {
+      out.println(it.next());
     }
 
     in.close();

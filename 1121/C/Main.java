@@ -28,9 +28,10 @@ public class Main {
     int finished_job = 0;
     int interesting_submission = 0;
     HashSet<Integer> interesting_submission_list = new HashSet<>();
-    while (current_time < time_end) {
+    while (current_time <= 150 * n) {
       // update each process
       for (int i = 0; i < k; i++) {
+        // out.println("remaining test: " + remaining_test[i]);
         if (remaining_test[i] == -1) continue;
         if (remaining_test[i] >= 0) remaining_test[i]--;
         // finished submission
@@ -46,7 +47,7 @@ public class Main {
         }
       }
       // calculate interest
-      int d = Math.round((float) (100 * finished_job) / (float) n);
+      long d = Math.round((double) (100 * finished_job) / (double) n);
       for (int i = 0; i < k; i++) {
         // already interesting!!!
         if (interesting_submission_list.contains(current_test[i])) continue;

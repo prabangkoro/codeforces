@@ -5,7 +5,7 @@ public class Main {
   static Scanner in = new Scanner(System.in);
   static PrintWriter out = new PrintWriter(System.out);
 
-  static long solve (int[] divisors) {
+  static long solve (long[] divisors) {
     int n = divisors.length;
     Arrays.sort(divisors);
     long X = divisors[0] * divisors[n - 1];
@@ -14,17 +14,30 @@ public class Main {
     }
     return X;
   }
+
+  static long factors (long x) {
+    long factors = 0;
+    for (long i = 2; i * i <= x; i++) {
+      if (x % i != 0) continue;
+      factors++;
+      if (i * i != x) factors++;
+    }
+    return factors;
+  }
   
   public static void main(String[] args) {
     int t = in.nextInt();
 
     for (int i = 0; i < t; i++) {
       int n = in.nextInt();
-      int[] divisors = new int[n];
+      long[] divisors = new long[n];
       for (int j = 0; j < n; j++) {
-        divisors[j] = in.nextInt();
+        divisors[j] = in.nextLong();
       }
-      out.println(solve(divisors));
+      long X = solve(divisors);
+      // out.println("X: " + X + " factors: " + factors(X));
+      if (X != -1 && factors(X) == n) out.println(solve(divisors));
+      else out.println(-1);
     }
 
     in.close();

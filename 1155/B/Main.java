@@ -8,35 +8,26 @@ public class Main {
   public static void main(String[] args) {
     int n = in.nextInt();
     in.nextLine();
-    String number = in.nextLine();
-    int[] numbers = new int[n];
-    int[] diff = new int[n];
+    String s = in.nextLine();
+    int turn1 = (n - 11) / 2;
+    int turn2 = (n - 11) / 2;
 
+    LinkedList<Integer> result = new LinkedList<>();
     for (int i = 0; i < n; i++) {
-      numbers[i] = number.charAt(i) - '0';
-    }
-
-    int[] func = new int[9];
-    for (int i = 0; i < 9; i++) {
-      func[i] = in.nextInt();
-    }
-
-    for (int i = 0; i < n; i++) {
-      diff[i] = func[numbers[i] - 1] - numbers[i];
-    }
-
-    for (int i = 0; i < n; i++) {
-      if (diff[i] > 0) {
-        while (i < n && diff[i] >= 0) {
-          numbers[i] = func[numbers[i] - 1];
-          i++;
-        }
-        break;
+      int digit = s.charAt(i) - '0';
+      if (digit == 8) {
+        // petya
+        if (turn2 > 0) turn2--;
+        else result.add(digit);
+      } else {
+        // vasha
+        if (turn1 > 0) turn1--;
+        else result.add(digit);
       }
     }
-    for (int i = 0; i < n; i++) {
-      out.print(numbers[i]);
-    }
+
+    if (result.getFirst() == 8) out.println("YES");
+    else out.println("NO");
 
     in.close();
     out.close();

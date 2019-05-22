@@ -2,8 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-  static Scanner in = new Scanner(System.in);
-  static PrintWriter out = new PrintWriter(System.out);
+  static InputStream inputStream = System.in;
+  static OutputStream outputStream = System.out;
+  static InputReader in = new InputReader(inputStream);
+  static PrintWriter out = new PrintWriter(outputStream);
 
   static int d;
   static int k;
@@ -13,23 +15,20 @@ public class Main {
   static boolean[] visited;
   static int[] depth;
   static boolean[] isPolice;
-  // static int[][] roadIndex;
 
-  static HashSet<Integer> deletedRoadIndex = new HashSet<>();
-  static HashSet<Integer> police = new HashSet<>();
+  static TreeSet<Integer> deletedRoadIndex = new TreeSet<>();
+  static TreeSet<Integer> police = new TreeSet<>();
 
   static void bfs (int start) {
     visited[start] = true;
 
     for (int next : road[start].keySet()) {
-      boolean deleted = false;
-      if (deletedRoad[start] != null) deleted = deletedRoad[start].contains(next);
+      // boolean deleted = false;
+      // if (deletedRoad[start] != null) deleted = deletedRoad[start].contains(next);
       
-      if (!visited[next] && !deleted) {
-        if (depth[start] >= d || isPolice[next]) {
+      if (!visited[next]) {
+        if (isPolice[next] || depth[start] == d + 1) {
           deleteRoad(start, next);
-
-          if (deletedRoadIndex.size() == k - 1) break;
         } else {
           depth[next] = depth[start] + 1; 
           bfs(next);
@@ -57,7 +56,6 @@ public class Main {
     visited = new boolean[n];
     deletedRoad = new HashSet[n];
     isPolice = new boolean[n];
-    // roadIndex = new int[n][n];
 
     for (int i = 0; i < k; i++) {
       int input = in.nextInt() - 1;
@@ -77,7 +75,7 @@ public class Main {
 
 
     for (Integer pol : police) {
-      if (deletedRoadIndex.size() == k - 1) break;
+      // out.println("bfs pol: " + pol);
       bfs(pol);
     }
 
@@ -90,7 +88,31 @@ public class Main {
       out.print(idx + " ");
     }
 
-    in.close();
     out.close();
+  }
+
+  static class InputReader {
+    public BufferedReader reader;
+    public StringTokenizer tokenizer;
+
+    public InputReader(InputStream stream) {
+        reader = new BufferedReader(new InputStreamReader(stream), 32768);
+        tokenizer = null;
+    }
+
+    public String next() {
+        while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+            try {
+                tokenizer = new StringTokenizer(reader.readLine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return tokenizer.nextToken();
+    }
+
+    public int nextInt() {
+        return Integer.parseInt(next());
+    }
   }
 }

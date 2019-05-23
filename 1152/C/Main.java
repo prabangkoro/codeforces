@@ -5,7 +5,7 @@ public class Main {
   static Scanner in = new Scanner(System.in);
   static PrintWriter out = new PrintWriter(System.out);
 
-  static int gcd (int a, int b) {
+  static long gcd (long a, long b) {
     if (b == 0) {
       return a;
     } else {
@@ -18,36 +18,35 @@ public class Main {
     int b = in.nextInt();
 
     int diff = Math.abs(b - a);
-    int gcdAB = gcd(a, b);
-    if (diff != 0 && gcdAB != a && gcdAB != b) {
-      int number = Math.max(a, b);
-      int multiplier = (int)Math.ceil((double) number / diff);
-      int maxCounter = multiplier * diff - number;
-      int counter = 0;
-      int minAB = Math.min(a, b);
-      int maxAB = Math.max(a, b);
-      while ((maxAB % minAB) != 0 && counter < maxCounter) {
-        a++;
-        b++;
-        counter++;
-        minAB = Math.min(a, b);
-        maxAB = Math.max(a, b);
+    // iterate all divisors of (b - a)
+    TreeSet<Integer> divisors = new TreeSet<>();
+    for (int i = 1; i * i <= diff; i++) {
+      if (diff % i != 0) continue;
+      divisors.add(i);
+      if (diff != (i * i)) {
+        divisors.add(diff / i);
       }
-      out.println(Math.min(counter, maxCounter));
-    } else {
-      out.println(0);
     }
-    // long counter = 0;
-    // long gcdAB = gcd(a, b);
-    // if (diff != 0 && gcdAB != a && gcdAB != b) {
-    //   while (gcdAB != diff && gcdAB != Math.min(a, b)) {
-    //     a++;
-    //     b++;
-    //     counter++;
-    //     gcdAB = gcd(a, b);
-    //   }
+    
+    long minLcm = Long.MAX_VALUE;
+    int k = 0;
+    for (int d : divisors) {
+      int kCurr = (d - a % d) % d;
+      long newA = (long)a + (long)kCurr;
+      long newB = (long)b + (long)kCurr;
+      long lcm = newA / gcd(newA, newB) * newB;
+      out.println("d: " + d + " k: " + kCurr + " lcm: " + lcm);
+      if (lcm < minLcm) {
+        k = kCurr;
+        minLcm = lcm;
+      }
+    }
+
+    out.println(k);
+    // if (Math.max(a, diff) % Math.min(a, diff) == 0) {
+    //   out.println(0);
+    // } else {
     // }
-    // out.println(counter);
 
     in.close();
     out.close();

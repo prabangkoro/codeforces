@@ -8,6 +8,42 @@ public class Main {
   static PrintWriter out = new PrintWriter(outputStream);
   
   public static void main(String[] args) {
+    int n = in.nextInt();
+    int m = in.nextInt();
+
+    int[] qtyX = new int[n + 1];
+    int[] qtyY = new int[n + 1];
+    int withoutX = 0;
+    int withoutY = 0;
+
+    int x = in.nextInt();
+    int y = in.nextInt();
+
+    for (int i = 0; i < m - 1; i++) {
+      int a = in.nextInt();
+      int b = in.nextInt();
+
+      if (a != x && b != x) {
+        qtyY[a]++;
+        qtyY[b]++;
+        withoutX++;
+      }
+      if (a != y && b != y) {
+        qtyX[a]++;
+        qtyX[b]++;
+        withoutY++;
+      }
+    }
+
+    boolean OK = false;
+    for (int i = 1; i < n + 1 && !OK; i++) {
+      if (qtyX[i] == withoutY || qtyY[i] == withoutX) {
+        OK = true;
+      }
+    }
+
+    out.println(OK ? "YES" : "NO");
+
 
     out.close();
   }

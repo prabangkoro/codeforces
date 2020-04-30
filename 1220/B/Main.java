@@ -6,9 +6,45 @@ public class Main {
   static OutputStream outputStream = System.out;
   static InputReader in = new InputReader(inputStream);
   static PrintWriter out = new PrintWriter(outputStream);
+
+  static int gcd (int a, int b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+  }
   
   public static void main(String[] args) {
+    int n = in.nextInt();
+    int[][] M = new int[n][n];
+    int[] ans = new int[n];
 
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+       int inp = in.nextInt();
+       M[i][j] = inp; 
+      }
+    }
+
+    int[] gcd_list = new int[n];
+    for (int i = 0; i < n; i++) {
+      for (int j = 1; j < n; j++) {
+        gcd_list[i] = gcd(gcd_list[i], M[i][j]);
+      }
+    }
+
+
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        out.print(M[i][j] / gcd_list[i]);
+        out.print(" ");
+      }
+      out.println();
+    }
+
+
+    // for (int i = 0; i < n; i++) {
+    //   out.print(ans[i]);
+    //   out.print(" ");
+    // }
     out.close();
   }
 

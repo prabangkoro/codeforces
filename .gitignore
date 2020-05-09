@@ -4,3 +4,5 @@
 *.class
 .DS_Store
 .vscode/launch.json
+*.exe
+.idea/
